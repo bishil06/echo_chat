@@ -9,11 +9,11 @@
 ### how to use
 #### echo_server
 ```
-./echo_server <port>
+./bin/echo_server <port>
 ```
 #### echo_client
 ```
-./echo_client <ip> <port>
+./bin/echo_client <ip> <port>
 ```
 ### compile
 #### echo_server

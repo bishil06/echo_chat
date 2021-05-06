@@ -1,19 +1,19 @@
 # echo_chat
-Echo Chat create by C language
+에코 서버
 
 ## multiprocess echo server
-내부 흐름도
+내부 동작 흐름도  
 ![multiprocess echo server](./multiprocess_echo_server.png)
-동작중 스크린샷
+동작중 스크린샷  
 ![multiprocess echo server photo](./multiprocess_echo_server_photo.jpg)
 ### how to use
-#### server
+#### echo_server
 ```
-./server <port>
+./echo_server <port>
 ```
-#### client
+#### echo_client
 ```
-./client <ip> <port>
+./echo_client <ip> <port>
 ```
 ### compile
 #### echo_server

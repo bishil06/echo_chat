@@ -32,6 +32,7 @@ int main(int argc, char *argv[]) {
     act.sa_handler = endChildAction;
     act.sa_flags = 0;
     sigemptyset(&act.sa_mask);
+    int state = sigaction(SIGCHLD, &act, 0);
 
     if (argc != 2) {
         printf("how to use: %s port\n", argv[0]);

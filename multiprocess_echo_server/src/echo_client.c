@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include "validateInput.h"
 
 #define BUF_SIZE 1024
 
@@ -20,7 +21,7 @@ void read_routine(int sock, char *buf) {
         if (str_len == 0) return;
 
         buf[str_len] = 0;
-        printf("from server: %s\n", buf);
+        printf("from server: %s", buf);
     }
 }
 
@@ -37,10 +38,13 @@ void write_routine(int sock, char *buf) {
 }
 
 int main(int argc, char *argv[]) {
-    if(argc!=3) {
-		printf("how to use : %s <ip> <port>\n", argv[0]);
-		exit(1);
-	}
+    char *ip = "";
+    char *port = "";
+
+    bool check = validateInputClient(argc, argv, &ip, &port);
+    if (check == false) {
+        exit(1);
+    }
 
     // 소켓 생성
     int sock = socket(PF_INET, SOCK_STREAM, 0);
@@ -51,10 +55,13 @@ int main(int argc, char *argv[]) {
     // 소켓 연결
     struct sockaddr_in serv_addr = { 0, };
     serv_addr.sin_family=AF_INET;
-	serv_addr.sin_addr.s_addr=inet_addr(argv[1]);
-	serv_addr.sin_port=htons(atoi(argv[2]));
+	serv_addr.sin_addr.s_addr=inet_addr(ip);
+	serv_addr.sin_port=htons(atoi(port));
     if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) == -1) {
         error_handling("connect() error");
+    }
+    else {
+        printf("connect success\n");
     }
 
     pid_t pid = fork();

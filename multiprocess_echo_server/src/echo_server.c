@@ -6,6 +6,7 @@
 #include <sys/wait.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include "validateInput.h"
 
 #define BUF_SIZE 1024
 
@@ -27,17 +28,18 @@ void endChildAction(int sig) {
 }
 
 int main(int argc, char *argv[]) {
+    char *port = "";
+    bool check = validateInputServer(argc, argv, &port);
+    if (check == false) {
+        exit(1);
+    }
+
     // 자식프로세스 처리 시그널 추가
     struct sigaction act = { 0, };
     act.sa_handler = endChildAction;
     act.sa_flags = 0;
     sigemptyset(&act.sa_mask);
     int state = sigaction(SIGCHLD, &act, 0);
-
-    if (argc != 2) {
-        printf("how to use: %s port\n", argv[0]);
-        exit(1);
-    }
 
     // 소켓 생성
     int serv_sock = -1;
@@ -49,7 +51,7 @@ int main(int argc, char *argv[]) {
     struct sockaddr_in serv_addr = { 0, };
     serv_addr.sin_family=AF_INET;
 	serv_addr.sin_addr.s_addr=htonl(INADDR_ANY);
-	serv_addr.sin_port=htons(atoi(argv[1]));
+	serv_addr.sin_port=htons(atoi(port));
     if (bind(serv_sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) == -1) {
         error_handling("bind() error");
     }
@@ -57,6 +59,8 @@ int main(int argc, char *argv[]) {
     if (listen(serv_sock, 5) == -1) {
         error_handling("listen() error");
     }
+
+    printf("server listenning %s port\n", port);
 
     while (true) {
         struct sockaddr_in clnt_addr = { 0, };

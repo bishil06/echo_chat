@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
         socklen_t clnt_addr_size = sizeof(clnt_addr);
         int clnt_sock = accept(serv_sock, (struct sockaddr *)&clnt_addr, &clnt_addr_size);
         if (clnt_sock == -1) {
-            fprintf(stderr, "accpet() error\n");
+            // fprintf(stderr, "accpet() error\n");
             continue;
         }
         else {
@@ -75,6 +75,7 @@ int main(int argc, char *argv[]) {
         }
 
         pid_t pid = fork();
+
         if (pid == -1) {
             close(clnt_sock);
             continue;

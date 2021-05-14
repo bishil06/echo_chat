@@ -9,20 +9,20 @@
 ### how to use
 #### echo_server
 ```
-./bin/echo_server <port>
+./echo_server <port>
 ```
 #### echo_client
 ```
-./bin/echo_client <ip> <port>
+./echo_client <ip> <port>
 ```
 ### compile
 #### echo_server
 ```
 cd multiprocess_server
-cc echo_server.c -o ./bin/echo_server
+cc echo_server.c -o echo_server
 ```
 #### echo_client
 ```
 cd multiprocess_server
-cc echo_client.c -o ./bin/echo_client
+cc echo_client.c -o echo_client
 ```
